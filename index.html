@@ -6,7 +6,7 @@
 <title>Struktura zespołu KLW</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&family=Oswald:wght@400;600;700&family=Bebas+Neue&family=Playfair+Display:wght@700;900&family=Roboto+Mono:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root{
@@ -191,11 +191,13 @@ body.edit .ed{cursor:text; outline:1px dashed rgba(255,255,255,.28); outline-off
 body.edit .plate .ed{outline-color:rgba(0,0,0,.4)}
 body.edit .ed:focus{outline:2px solid #6cc4ff}
 body.edit .ctl{display:inline-flex; gap:3px; flex:none}
-body.edit .mem{padding-left:70px; padding-right:70px}
+body.edit .mem{flex-wrap:wrap; justify-content:center; gap:4px 8px; padding:6px 10px}
 body.edit .mem::before,body.edit .mem::after{display:none}
-body.edit .mem .ctl{position:absolute; right:8px; top:50%; transform:translateY(-50%)}
+body.edit .mem .ed{order:-1; flex:1 1 100%; min-width:0}
+body.edit .mem .style-ctl{order:1}
+body.edit .mem .ctl{order:2}
 body.edit .plate .ctl{position:absolute; top:4px; right:6px}
-body.edit .plate{padding-top:26px}
+body.edit .plate{padding-top:34px}
 body.edit .plate::before,body.edit .plate::after{display:none}
 .mini,.icon-btn{
   font:700 13px/1 var(--font); min-width:24px; height:24px; padding:0 5px; cursor:pointer; border-radius:6px;
@@ -217,7 +219,83 @@ body.edit .add:hover{background:rgba(255,255,255,.12); border-color:#fff}
 body.edit .plate-add{flex:1 1 220px; width:auto; min-height:70px; margin:0}
 body.edit .group-add{min-height:42px}
 
+/* Własne emoji / obrazki jako ikony */
+.emo{display:inline-flex; align-items:center; justify-content:center; line-height:1; text-align:center; color:initial;
+  font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",sans-serif; -webkit-text-fill-color:initial}
+.shead .emo{font-size:38px}
+.ghead .emo{font-size:27px}
+img.emo-img{display:block; object-fit:contain}
+.ic-grid{display:flex; flex-wrap:wrap; gap:6px}
+.ic-btn{width:44px; height:44px; padding:0; display:inline-flex; align-items:center; justify-content:center; font-size:24px; line-height:1;
+  cursor:pointer; color:#e9eef5; background:#1c222c; border:1px solid #444d5c; border-radius:10px;
+  font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",var(--font)}
+.ic-btn svg{width:26px; height:26px}
+.ic-btn:hover{background:#28303d; border-color:#6a7588}
+.ic-btn.on{border-color:#e9c25c; background:#3a2f12}
+.ic-emoji-row{display:flex; gap:8px}
+.ic-emoji-row input{flex:1; min-width:0; height:40px; padding:0 10px; font:22px var(--font); color:#e9eef5; background:#0b0f16; border:1px solid #3a4658; border-radius:8px}
+#icon-dlg .style-dlg-row{margin-top:14px}
+#icon-dlg .hint{font-size:12px; margin:0; color:#8f9bad}
+
+/* Panel admina: edycja tylko po zalogowaniu */
+.admin-only{display:none !important}
+body.is-admin .admin-only{display:inline-block !important}
+body.is-admin .guest-only{display:none !important}
+#adm-pass{width:100%; height:42px; padding:0 12px; font:16px var(--font); color:#e9eef5; background:#0b0f16; border:1px solid #3a4658; border-radius:8px}
+#adm-err{min-height:18px; margin:8px 0 0; font-size:13px; color:#ff8a8a}
+
+/* Emoji przy osobach, właścicielach i nagłówku właścicieli */
+.mem-ico{flex:none; width:1.25em; height:1.25em; margin-right:8px; fill:currentColor}
+.mem .emo.mem-ico,.pname .emo.mem-ico{width:auto; height:auto; font-size:1.15em; text-shadow:none}
+img.mem-ico{object-fit:contain}
+.pname .mem-ico{display:inline-block; vertical-align:-.14em; margin-right:.3em}
+.pname .emo.mem-ico{display:inline; margin-right:.3em}
+.mini .mem-ico,.mini .emo.mem-ico{width:14px; height:14px; margin:0; font-size:14px; vertical-align:middle; display:inline-block}
+.mini.mem-ic-btn{font-size:14px}
+.ohead .oico{flex:none}
+.ohead img.emo-img{width:46px; height:46px}
+.ohead .emo{width:46px; height:46px; font-size:36px}
+.icon-btn.ohead-btn{border-radius:10px}
+
+/* Kontrolki koloru i czcionki (tryb edycji) */
+.style-ctl{
+  display:inline-flex; align-items:center; flex-wrap:wrap; gap:4px; max-width:100%;
+  font:600 12px/1 var(--font); letter-spacing:normal; text-transform:none; text-shadow:none; text-align:left;
+}
+.style-ctl .color-pick{
+  width:28px; height:24px; min-width:28px; padding:1px; margin:0; cursor:pointer; flex:none;
+  border:1px solid rgba(255,255,255,.35); border-radius:6px; background:rgba(8,12,20,.85);
+}
+.style-ctl .color-pick::-webkit-color-swatch-wrapper{padding:1px}
+.style-ctl .color-pick::-webkit-color-swatch{border:none; border-radius:4px}
+.style-ctl .font-pick{
+  height:24px; width:118px; max-width:100%; padding:0 4px; margin:0; cursor:pointer;
+  font:600 12px var(--font); color:#eef2f7; background:rgba(8,12,20,.9);
+  border:1px solid rgba(255,255,255,.35); border-radius:6px;
+}
+.plate .style-ctl .color-pick,.plate .style-ctl .font-pick{border-color:rgba(0,0,0,.45)}
+.plate .style-ctl{display:flex; justify-content:center; margin-bottom:6px}
+
+/* Nagłówki sekcji/grup: kontrolki w osobnym rzędzie, nic nie wystaje poza ramkę */
+.panel,.panel>.in,.groups,.group,.members,.mem{min-width:0}
+.cols>*{min-width:0}
+body.edit .shead,body.edit .ghead{flex-wrap:wrap}
+body.edit .shead h2{flex:1 1 140px}
+body.edit .ghead h3{flex:1 1 120px}
+body.edit .shead .ctl,body.edit .ghead .ctl{flex:1 1 100%; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:4px}
+body.edit .ohead{flex-wrap:wrap}
+body.edit .ohead h2,body.edit .plaque h1,body.edit .plaque .sub{min-width:0}
+body.edit .plaque .sub{flex-wrap:wrap}
+
 .empty{padding:26px; text-align:center; color:#cfd6df; border:1.5px dashed rgba(255,255,255,.35); border-radius:12px; background:rgba(0,0,0,.35)}
+
+/* Kolor i czcionka elementów — wspólne okno */
+.style-dlg-row{margin-bottom:14px; display:flex; flex-direction:column; gap:6px}
+.style-dlg-row label{font-size:13px; font-weight:600; color:#b9c3d1}
+#style-color{width:100%; height:38px; padding:2px; border:1px solid #3a4658; border-radius:8px; background:#0b0f16; cursor:pointer}
+#style-color::-webkit-color-swatch-wrapper{padding:2px}
+#style-color::-webkit-color-swatch{border:none; border-radius:6px}
+#style-font{width:100%; height:38px; padding:0 8px; border:1px solid #3a4658; border-radius:8px; background:#0b0f16; color:#e9eef5; font:14px var(--font); cursor:pointer}
 
 /* Pasek narzędzi */
 .bar{
@@ -268,14 +346,17 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
 </div>
 
 <nav class="bar" aria-label="Narzędzia edycji">
-  <button class="tb primary" id="b-edit" aria-pressed="false">✎ Tryb edycji</button>
+  <button class="tb guest-only" id="b-admin">🔒 Panel admina</button>
+  <button class="tb primary admin-only" id="b-edit" aria-pressed="false">✎ Tryb edycji</button>
   <span class="only-edit">
     <button class="tb" id="b-sec">＋ Dodaj sekcję</button>
     <button class="tb" id="b-undo">↶ Cofnij</button>
     <button class="tb" id="b-reset">Przywróć domyślne</button>
   </span>
   <button class="tb" id="b-png">🖼 Zapisz jako PNG</button>
-  <button class="tb" id="b-io">Eksport / import</button>
+  <button class="tb admin-only" id="b-io">Eksport / import</button>
+  <button class="tb admin-only" id="b-pass">🔑 Zmień hasło</button>
+  <button class="tb admin-only" id="b-logout">Wyloguj</button>
   <span class="only-edit">
     <button class="tb" id="b-bg">🖼 Dodaj tło</button>
     <input type="file" id="bg-file" accept="image/*" hidden>
@@ -299,9 +380,48 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
   </div>
 </dialog>
 
+<dialog id="adm-dlg">
+  <h2>Panel admina</h2>
+  <p>Edycja struktury jest dostępna tylko dla administracji. Podaj hasło, aby ją włączyć.</p>
+  <input type="password" id="adm-pass" autocomplete="current-password" placeholder="Hasło admina" aria-label="Hasło admina">
+  <p id="adm-err" role="alert"></p>
+  <div class="row"><button class="tb" id="adm-ok">Zaloguj</button><button class="tb" id="adm-cancel">Anuluj</button></div>
+</dialog>
+
+<dialog id="icon-dlg">
+  <h2>Ikona</h2>
+  <p>Wybierz jedną z gotowych ikon, wpisz własne emoji albo wgraj własny obrazek.</p>
+  <div class="ic-grid" id="ic-builtin"></div>
+  <div class="style-dlg-row">
+    <label for="ic-emoji">Własne emoji</label>
+    <div class="ic-emoji-row">
+      <input type="text" id="ic-emoji" maxlength="32" placeholder="wklej lub wpisz emoji" autocomplete="off" aria-label="Własne emoji">
+      <button class="tb" id="ic-emoji-ok">Użyj</button>
+    </div>
+    <p class="hint">Panel emoji: Windows – Win + . &nbsp;|&nbsp; Mac – Ctrl + Cmd + Spacja</p>
+    <div class="ic-grid" id="ic-quick"></div>
+  </div>
+  <div class="style-dlg-row">
+    <label>Własny obrazek (np. emoji z Discorda, logo)</label>
+    <div><button class="tb" id="ic-upload">📁 Wgraj obrazek</button><input type="file" id="ic-file" accept="image/*" hidden></div>
+  </div>
+  <div class="row"><button class="tb" id="ic-none" hidden>Bez ikony</button><button class="tb" id="ic-close">Zamknij</button></div>
+</dialog>
+
 <script>
 (function(){
   var KEY = 'klw-struktura-v1';
+
+  /* ---------- Konfiguracja ----------
+     ADMIN_PASS_SHA256 – skrót SHA-256 hasła admina (zmiana: przycisk „Zmień hasło” w panelu admina).
+     FIREBASE_URL      – adres Realtime Database, np. https://twoj-projekt-default-rtdb.europe-west1.firebasedatabase.app
+                         Gdy puste, zmiany zapisują się tylko w przeglądarce admina.
+                         Gdy ustawione, wszyscy odwiedzający widzą wersję zapisaną przez admina. */
+  var CONFIG = {
+    ADMIN_PASS_SHA256: '426d9c372a72c0d67f8604c965e9f7665c5624713a70eabf753050f3b09285b5',
+    FIREBASE_URL: '',
+    FIREBASE_PATH: 'klw-struktura'
+  };
 
   /* ---------- Ikony ---------- */
   var gear = '<circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="3.4"/>';
@@ -318,7 +438,11 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
     crown: '<path d="M2 7l5 4.2L12 3l5 8.2L22 7l-2 12H4z"/>'
   };
   var ICON_ORDER = ['gear','flag','mic','headphones','people','twitter','shield','star'];
+  var FONTS = ['Titillium Web','Oswald','Bebas Neue','Playfair Display','Roboto Mono','Arial','Georgia','Verdana','Impact','Courier New'];
   function icon(name, cls){
+    name = String(name == null ? '' : name);
+    if (name.indexOf('emoji:') === 0) return '<span class="' + (cls || '') + ' emo" aria-hidden="true">' + esc(name.slice(6)) + '</span>';
+    if (name.indexOf('img:data:image/') === 0) return '<img class="' + (cls || '') + ' emo-img" src="' + esc(name.slice(4)) + '" alt="" draggable="false">';
     return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' + (ICONS[name] || ICONS.star) + '</svg>';
   }
 
@@ -363,7 +487,42 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
     } catch (e) {}
     return null;
   }
-  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} remoteSave(); }
+
+  /* Synchronizacja z Firebase (opcjonalna) */
+  function fbUrl(){
+    var u = String(CONFIG.FIREBASE_URL || '').replace(/\/+$/, '');
+    return u ? u + '/' + CONFIG.FIREBASE_PATH + '.json' : '';
+  }
+  function arr(x){ return Array.isArray(x) ? x : (x && typeof x === 'object' ? Object.keys(x).map(function(k){ return x[k]; }) : []); }
+  /* Firebase nie przechowuje pustych tablic, więc po pobraniu je odtwarzamy */
+  function fixArrays(d){
+    if (!d || typeof d !== 'object') return d;
+    d.owners = arr(d.owners); d.sections = arr(d.sections);
+    d.sections.forEach(function(sec){ sec.groups = arr(sec.groups); sec.groups.forEach(function(g){ g.items = arr(g.items); }); });
+    return d;
+  }
+  function remoteLoad(){
+    var u = fbUrl(); if (!u || typeof fetch !== 'function') return;
+    fetch(u, {cache:'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+      if (!d) return;
+      d = fixArrays(d);
+      if (!valid(d) || history.length) return;
+      state = normalizeBackground(d);
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      render();
+    }).catch(function(){});
+  }
+  var remoteTimer;
+  function remoteSave(){
+    var u = fbUrl(); if (!u || !isAdmin || typeof fetch !== 'function') return;
+    clearTimeout(remoteTimer);
+    remoteTimer = setTimeout(function(){
+      fetch(u, {method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(state)})
+        .then(function(r){ if (!r.ok) throw new Error('http'); })
+        .catch(function(){ toast('Nie udało się zapisać na serwerze. Zmiany są tylko w tej przeglądarce.'); });
+    }, 800);
+  }
 
   function normalizeBackground(d){
     if (!d.background || typeof d.background !== 'object') d.background = {image:'', opacity:1};
@@ -373,6 +532,9 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
     return d;
   }
 
+  var isAdmin = (function(){
+    try { return !!CONFIG.ADMIN_PASS_SHA256 && sessionStorage.getItem('klw-admin') === CONFIG.ADMIN_PASS_SHA256; } catch (e) { return false; }
+  })();
   var state = normalizeBackground(load() || makeDefault());
   var edit = false, refs = [], history = [], focusObj = null;
   var PT = (function(){ var d = document.createElement('div'); try { d.contentEditable = 'plaintext-only'; } catch (e) {} return d.contentEditable === 'plaintext-only'; })();
@@ -380,8 +542,27 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
 
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function reg(o){ var i = refs.indexOf(o); if (i < 0) { refs.push(o); i = refs.length - 1; } return i; }
-  function ed(o, k, ph){
-    return '<span class="ed" data-r="' + reg(o) + '" data-k="' + k + '" data-ph="' + esc(ph) + '" contenteditable="' + (edit ? (PT ? 'plaintext-only' : 'true') : 'false') + '" spellcheck="false">' + esc(o[k]) + '</span>';
+  function ed(o, k, ph, sk){
+    sk = sk || k;
+    var style = '';
+    if (o[sk + 'Color']) style += 'color:' + esc(o[sk + 'Color']) + ';';
+    if (o[sk + 'Font']) style += 'font-family:\'' + esc(o[sk + 'Font']) + '\',var(--font);';
+    return '<span class="ed" data-r="' + reg(o) + '" data-k="' + k + '" data-ph="' + esc(ph) + '"' + (style ? ' style="' + style + '"' : '') + ' contenteditable="' + (edit ? (PT ? 'plaintext-only' : 'true') : 'false') + '" spellcheck="false">' + esc(o[k]) + '</span>';
+  }
+  function memIconBtn(o){
+    return '<button class="mini mem-ic-btn" data-act="icon" data-r="' + reg(o) + '" title="Emoji / ikona przy nazwie" aria-label="Emoji przy nazwie">' +
+      (o.icon ? icon(o.icon, 'mem-ico') : '☺') + '</button>';
+  }
+  function styleCtl(o, sk, extra){
+    var r = reg(o), color = o[sk + 'Color'] || '', font = o[sk + 'Font'] || '';
+    var opts = '<option value="">Domyślna czcionka</option>' + FONTS.map(function(f){
+      return '<option value="' + esc(f) + '"' + (f === font ? ' selected' : '') + '>' + esc(f) + '</option>';
+    }).join('');
+    return '<span class="style-ctl">' + (extra || '') +
+      '<input type="color" class="color-pick" data-r="' + r + '" data-sk="' + sk + '" value="' + (color || '#ffffff') + '" title="Kolor tekstu" aria-label="Kolor tekstu">' +
+      '<select class="font-pick" data-r="' + r + '" data-sk="' + sk + '" title="Czcionka" aria-label="Czcionka tekstu">' + opts + '</select>' +
+      (color ? '<button class="mini del" data-act="clearcolor" data-r="' + r + '" data-sk="' + sk + '" title="Usuń kolor" aria-label="Usuń kolor">⨯</button>' : '') +
+      '</span>';
   }
   function ctl(list, item, horiz, extra){
     var L = reg(list), I = reg(item);
@@ -400,17 +581,18 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
 
   function plate(o){
     return '<div class="plate"><span class="crown">' + icon('crown') + '</span>' +
-      '<div class="pname">' + ed(o,'name','Imię i nazwisko') + '</div>' +
-      '<div class="prole">' + ed(o,'role','Rola') + '</div>' +
+      (edit ? styleCtl(o,'name',memIconBtn(o)) : '') +
+      '<div class="pname">' + (!edit && o.icon ? icon(o.icon, 'mem-ico') : '') + ed(o,'name','Imię i nazwisko','name') + '</div>' +
+      '<div class="prole">' + ed(o,'role','Rola','name') + '</div>' +
       (edit ? ctl(state.owners, o, true) : '') + '</div>';
   }
   function member(g, m){
-    return '<div class="mem">' + ed(m,'text','Nick / rola') + (edit ? ctl(g.items, m, false) : '') + '</div>';
+    return '<div class="mem">' + (edit ? styleCtl(m,'text',memIconBtn(m)) : (m.icon ? icon(m.icon, 'mem-ico') : '')) + ed(m,'text','Nick / rola') + (edit ? ctl(g.items, m, false) : '') + '</div>';
   }
   function group(s, g){
     var star = '<button class="mini' + (g.featured ? ' on' : '') + '" data-act="feat" data-r="' + reg(g) + '" title="Wyróżnij grupę (złote paski)" aria-label="Wyróżnij grupę" aria-pressed="' + !!g.featured + '">★</button>';
     return '<div class="group' + (g.featured ? ' featured' : '') + '">' +
-      '<div class="ghead">' + iconEl(g, 'ico') + '<h3>' + ed(g,'title','Nazwa grupy') + '</h3>' + (edit ? ctl(s.groups, g, false, star) : '') + '</div>' +
+      '<div class="ghead">' + iconEl(g, 'ico') + '<h3>' + ed(g,'title','Nazwa grupy') + '</h3>' + (edit ? ctl(s.groups, g, false, star + styleCtl(g,'title')) : '') + '</div>' +
       '<div class="members">' + g.items.map(function(m){ return member(g, m); }).join('') + '</div>' +
       (edit ? '<button class="add" data-act="add" data-kind="member" data-r="' + reg(g) + '">＋ Dodaj osobę</button>' : '') +
       '</div>';
@@ -419,7 +601,7 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
     var gold = s.theme === 'gold';
     var themeBtn = '<button class="mini" data-act="theme" data-r="' + reg(s) + '" title="Zmień kolor sekcji (niebieski / złoty)" aria-label="Zmień kolor sekcji">◐</button>';
     return '<section class="panel frame ' + (gold ? 'gold' : 'steel') + '"><div class="in">' +
-      '<div class="shead">' + iconEl(s, 'ico') + '<h2>' + ed(s,'title','Nazwa sekcji') + '</h2>' + (edit ? ctl(state.sections, s, true, themeBtn) : '') + '</div>' +
+      '<div class="shead">' + iconEl(s, 'ico') + '<h2>' + ed(s,'title','Nazwa sekcji') + '</h2>' + (edit ? ctl(state.sections, s, true, themeBtn + styleCtl(s,'title')) : '') + '</div>' +
       '<div class="groups">' + s.groups.map(function(g){ return group(s, g); }).join('') +
       (edit ? '<button class="add group-add" data-act="add" data-kind="group" data-r="' + reg(s) + '">＋ Dodaj grupę</button>' : '') +
       '</div></div></section>';
@@ -442,12 +624,13 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
 
   function render(){
     refs = [];
-    document.body.classList.toggle('edit', edit);
+    document.body.classList.toggle('edit', edit && isAdmin);
+    document.body.classList.toggle('is-admin', isAdmin);
     var h = '<header class="plaque">' + LOGO.replace('POS','l') + LOGO.replace('POS','r') +
-      '<h1>' + ed(state,'title','Tytuł') + '</h1>' +
-      '<div class="sub">' + ed(state,'subtitle','Podtytuł') + '</div></header>';
-    h += '<section class="owners frame gold"><div class="in"><div class="ohead">' + icon('people') +
-      '<h2>' + ed(state,'ownersTitle','Właściciele') + '</h2></div><div class="oplates">' +
+      '<h1>' + ed(state,'title','Tytuł') + (edit ? styleCtl(state,'title') : '') + '</h1>' +
+      '<div class="sub">' + ed(state,'subtitle','Podtytuł') + (edit ? styleCtl(state,'subtitle') : '') + '</div></header>';
+    h += '<section class="owners frame gold"><div class="in"><div class="ohead">' + iconEl(state.ownersHead || (state.ownersHead = {icon:'people'}), 'oico') +
+      '<h2>' + ed(state,'ownersTitle','Właściciele') + (edit ? styleCtl(state,'ownersTitle') : '') + '</h2></div><div class="oplates">' +
       state.owners.map(plate).join('') +
       (edit ? '<button class="add plate-add" data-act="add" data-kind="owner">＋ Dodaj właściciela</button>' : '') +
       '</div></div></section>';
@@ -503,13 +686,29 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
       else if (kind === 'owner') { o = {name:'Nowy właściciel', role:'Owner'}; state.owners.push(o); }
       focusObj = o;
     } else if (act === 'icon') {
-      snapshot(); var t = refs[+b.dataset.r]; t.icon = ICON_ORDER[(ICON_ORDER.indexOf(t.icon) + 1) % ICON_ORDER.length];
+      openIconDlg(refs[+b.dataset.r]); return;
     } else if (act === 'theme') {
       snapshot(); var s = refs[+b.dataset.r]; s.theme = s.theme === 'gold' ? 'blue' : 'gold';
     } else if (act === 'feat') {
       snapshot(); var g = refs[+b.dataset.r]; g.featured = !g.featured;
+    } else if (act === 'clearcolor') {
+      snapshot(); var co = refs[+b.dataset.r], csk = b.dataset.sk;
+      delete co[csk + 'Color']; delete co[csk + 'Font'];
     }
     save(); render();
+  });
+
+  /* Kolor i czcionka */
+  board.addEventListener('change', function(e){
+    var el = e.target;
+    if (el.classList.contains('color-pick')) {
+      var o = refs[+el.dataset.r], sk = el.dataset.sk;
+      snapshot(); o[sk + 'Color'] = el.value; save(); render();
+    } else if (el.classList.contains('font-pick')) {
+      var o2 = refs[+el.dataset.r], sk2 = el.dataset.sk;
+      snapshot(); if (el.value) { o2[sk2 + 'Font'] = el.value; } else { delete o2[sk2 + 'Font']; }
+      save(); render();
+    }
   });
 
   /* Edycja tekstu */
@@ -531,6 +730,7 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
 
   /* Pasek narzędzi */
   document.getElementById('b-edit').addEventListener('click', function(){
+    if (!isAdmin) return;
     edit = !edit; render();
     if (edit) toast('Tryb edycji: kliknij tekst, aby go zmienić');
     else hideToast();
@@ -656,6 +856,135 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
     } catch (e) { toast('Nie udało się wczytać. Sprawdź, czy wklejono cały tekst.'); }
   });
 
+  /* Ikony: gotowe, własne emoji, własny obrazek */
+  var iconDlg = document.getElementById('icon-dlg'), iconTarget = null;
+  var QUICK = ['🏁','🏆','🏎️','🚦','🚩','🎙️','🎧','📢','🛠️','🔧','⚙️','🛡️','⚖️','👑','⭐','🔥','⚡','🎮','🎥','📸','💬','📊','🚨','🤝','🌍','🇵🇱'];
+  function closeIconDlg(){ if (iconDlg.close) iconDlg.close(); else iconDlg.removeAttribute('open'); iconTarget = null; }
+  function setIcon(v){
+    if (!iconTarget) return;
+    snapshot();
+    if (v === '') delete iconTarget.icon; else iconTarget.icon = v;
+    save(); closeIconDlg(); render();
+  }
+  function firstGlyph(t){
+    t = String(t || '').trim();
+    if (!t) return '';
+    try {
+      if (window.Intl && Intl.Segmenter) {
+        var it = new Intl.Segmenter(undefined, {granularity:'grapheme'}).segment(t)[Symbol.iterator]().next();
+        return it.done ? '' : it.value.segment;
+      }
+    } catch (e) {}
+    return Array.from(t).slice(0, 2).join('');
+  }
+  function looksLikeEmoji(g){
+    try { return /[\p{Extended_Pictographic}\p{Regional_Indicator}\u20E3]/u.test(g); } catch (e) { return true; }
+  }
+  function openIconDlg(o){
+    iconTarget = o;
+    var cur = String(o.icon || '');
+    /* osoby i właściciele mogą nie mieć ikony; sekcje i grupy zawsze ją mają */
+    document.getElementById('ic-none').hidden = !('text' in o || 'name' in o);
+    document.getElementById('ic-builtin').innerHTML = ICON_ORDER.map(function(n){
+      return '<button class="ic-btn' + (cur === n ? ' on' : '') + '" data-ic="' + n + '" title="Ikona: ' + n + '" aria-label="Ikona ' + n + '">' + icon(n) + '</button>';
+    }).join('');
+    document.getElementById('ic-quick').innerHTML = QUICK.map(function(em){
+      return '<button class="ic-btn' + (cur === 'emoji:' + em ? ' on' : '') + '" data-em="' + esc(em) + '" aria-label="Emoji ' + esc(em) + '">' + esc(em) + '</button>';
+    }).join('');
+    var inp = document.getElementById('ic-emoji');
+    inp.value = cur.indexOf('emoji:') === 0 ? cur.slice(6) : '';
+    if (iconDlg.showModal) iconDlg.showModal(); else iconDlg.setAttribute('open', '');
+    inp.focus();
+  }
+  function applyEmojiInput(){
+    var g = firstGlyph(document.getElementById('ic-emoji').value);
+    if (!g) { toast('Wpisz lub wklej emoji.'); return; }
+    if (!looksLikeEmoji(g)) { toast('To nie wygląda na emoji. Wklej emoji albo wgraj obrazek.'); return; }
+    setIcon('emoji:' + g);
+  }
+  iconDlg.addEventListener('click', function(e){
+    if (e.target === iconDlg) { closeIconDlg(); return; }
+    var b = e.target.closest('.ic-btn');
+    if (!b) return;
+    if (b.dataset.ic) setIcon(b.dataset.ic);
+    else if (b.dataset.em) setIcon('emoji:' + b.dataset.em);
+  });
+  iconDlg.addEventListener('close', function(){ iconTarget = null; });
+  document.getElementById('ic-close').addEventListener('click', closeIconDlg);
+  document.getElementById('ic-none').addEventListener('click', function(){ setIcon(''); });
+  document.getElementById('ic-emoji-ok').addEventListener('click', applyEmojiInput);
+  document.getElementById('ic-emoji').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') { e.preventDefault(); applyEmojiInput(); }
+  });
+  var icFile = document.getElementById('ic-file');
+  document.getElementById('ic-upload').addEventListener('click', function(){ icFile.click(); });
+  icFile.addEventListener('change', function(){
+    var file = icFile.files && icFile.files[0];
+    icFile.value = '';
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { toast('Wybierz plik graficzny (PNG, JPG, WEBP, GIF, SVG).'); return; }
+    var reader = new FileReader();
+    reader.onerror = function(){ toast('Nie udało się wczytać obrazu.'); };
+    reader.onload = function(){
+      var img = new Image();
+      img.onerror = function(){ toast('Nie udało się wczytać obrazu.'); };
+      img.onload = function(){
+        /* zmniejszamy do 128 px, żeby nie rozdmuchać zapisu w przeglądarce */
+        var S = 128, c = document.createElement('canvas'); c.width = c.height = S;
+        var w = img.naturalWidth || img.width || S, h = img.naturalHeight || img.height || S;
+        var k = Math.min(S / w, S / h), dw = w * k, dh = h * k;
+        var ctx = c.getContext('2d');
+        ctx.drawImage(img, (S - dw) / 2, (S - dh) / 2, dw, dh);
+        var url; try { url = c.toDataURL('image/png'); } catch (e) { toast('Nie udało się przetworzyć obrazu.'); return; }
+        setIcon('img:' + url);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* Panel admina */
+  function sha256(str){
+    if (!(window.crypto && crypto.subtle)) return Promise.reject(new Error('nocrypto'));
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function(buf){
+      return Array.from(new Uint8Array(buf)).map(function(b){ return ('0' + b.toString(16)).slice(-2); }).join('');
+    });
+  }
+  var admDlg = document.getElementById('adm-dlg'), admPass = document.getElementById('adm-pass'), admErr = document.getElementById('adm-err');
+  function openAdminDlg(){
+    admPass.value = ''; admErr.textContent = '';
+    if (admDlg.showModal) admDlg.showModal(); else admDlg.setAttribute('open', '');
+    admPass.focus();
+  }
+  function closeAdminDlg(){ if (admDlg.close) admDlg.close(); else admDlg.removeAttribute('open'); }
+  function tryLogin(){
+    var v = admPass.value;
+    if (!v) { admErr.textContent = 'Podaj hasło.'; return; }
+    sha256(v).then(function(h){
+      if (h !== CONFIG.ADMIN_PASS_SHA256) { admErr.textContent = 'Nieprawidłowe hasło.'; admPass.select(); return; }
+      try { sessionStorage.setItem('klw-admin', h); } catch (e) {}
+      isAdmin = true; closeAdminDlg(); render(); remoteLoad();
+      toast('Zalogowano jako admin. Włącz „Tryb edycji”, aby edytować.');
+    }, function(){ admErr.textContent = 'Logowanie wymaga bezpiecznego połączenia (HTTPS).'; });
+  }
+  document.getElementById('b-admin').addEventListener('click', openAdminDlg);
+  document.getElementById('adm-ok').addEventListener('click', tryLogin);
+  document.getElementById('adm-cancel').addEventListener('click', closeAdminDlg);
+  admPass.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); tryLogin(); } });
+  admDlg.addEventListener('click', function(e){ if (e.target === admDlg) closeAdminDlg(); });
+  document.getElementById('b-logout').addEventListener('click', function(){
+    try { sessionStorage.removeItem('klw-admin'); } catch (e) {}
+    isAdmin = false; edit = false; render(); hideToast();
+  });
+  document.getElementById('b-pass').addEventListener('click', function(){
+    if (!isAdmin) return;
+    var np = prompt('Nowe hasło admina:');
+    if (!np) return;
+    sha256(np).then(function(h){
+      prompt('Wklej ten skrót do pola ADMIN_PASS_SHA256 na początku skryptu w pliku HTML, aby zmienić hasło:', h);
+    }, function(){ toast('Ta funkcja wymaga bezpiecznego połączenia (HTTPS).'); });
+  });
+
   /* Tło strony */
   var bgFile = document.getElementById('bg-file');
   document.getElementById('b-bg').addEventListener('click', function(){ bgFile.click(); });
@@ -689,6 +1018,8 @@ dialog .row{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-cont
   });
 
   render();
+  remoteLoad();
+  if (/[?&]admin(=|&|$)/.test(location.search) && !isAdmin) openAdminDlg();
 })();
 </script>
 </body>
